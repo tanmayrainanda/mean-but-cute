@@ -10,10 +10,10 @@ def get_stock_data(symbol):
 
 df = pd.DataFrame()
 # List of stocks in portfolio with number of shares
-stocks = {'AAPL': 1, 'MSFT': 1, 'GOOGL': 1}
+stocks = {'UNH': 1, 'TSLA': 1, 'GOOGL': 1}
 
 #original buy price
-buy_price = {'AAPL': 100, 'MSFT': 200, 'GOOGL': 100}
+buy_price = {'UNH': 100, 'TSLA': 200, 'GOOGL': 100}
 
 #value of portfolio at time of purchase
 buy_value = {}
@@ -48,4 +48,9 @@ for stock in stocks:
 
 print(df)
 
-#Calculate the covariance of the returns
+#Calculate the covariance of the returns for this portfolio
+for i in stocks:
+    for j in stocks:
+        if i != j:
+            cov = df[i + 'Return'].cov(df[j + 'Return'])
+            print("Covariance between", i, "and", j, "is", cov)
