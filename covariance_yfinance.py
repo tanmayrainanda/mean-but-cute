@@ -10,10 +10,10 @@ def get_stock_data(symbol):
 
 df = pd.DataFrame()
 # List of stocks in portfolio with number of shares
-stocks = {'AAPL': 100, 'MSFT': 100, 'GOOGL': 100}
+stocks = {'AAPL': 1, 'MSFT': 1, 'GOOGL': 1}
 
 #original buy price
-buy_price = {'AAPL': 100, 'MSFT': 200, 'GOOGL': 50}
+buy_price = {'AAPL': 100, 'MSFT': 200, 'GOOGL': 100}
 
 #value of portfolio at time of purchase
 buy_value = {}
@@ -42,9 +42,10 @@ for stock in stocks:
 
 print ("Mean Return", mean_return)
 
-#total mean return of each stock for the period of the last 2 months
-total_mean_return = 0
+#Calculate the value of return that each stock has given in 2 month intervals from jan 1st 2021 to current date
 for stock in stocks:
-    total_mean_return += mean_return[stock]
+    df[stock + 'Return'] = df[stock]-buy_price[stock]
 
-print ("Total Mean Return", total_mean_return)
+print(df)
+
+#Calculate the covariance of the returns
