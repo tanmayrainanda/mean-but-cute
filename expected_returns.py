@@ -55,7 +55,7 @@ plt.show()
 
 sample_cov = risk_models.sample_cov(portfolio, frequency=252)
 S = risk_models.CovarianceShrinkage(portfolio).ledoit_wolf()
-plotting.plot_covariance(S, plot_correlation=True);
+plotting.plot_covariance(S);
 
 # Calculate the expected return of the portfolio
 expected_return = sum(mean_return[stock] * stocks[stock] for stock in stocks)
@@ -105,7 +105,11 @@ ret_tangent, std_tangent, _ = ef2.portfolio_performance()
 ax.scatter(stds, rets, marker=".", c=sharpes, cmap="viridis_r")
 ax.scatter(std_tangent, ret_tangent, c='red', marker='X',s=150, label= 'Max Sharpe')
 
+im = ax.scatter(stds, rets, c=sharpes, marker=".", cmap="viridis_r")
+
 # Format
+cb = fig.colorbar(im, ax=ax)
+cb.set_label("Sharpe ratio")
 ax.set_title("Efficient Frontier with random portfolios")
 ax.legend()
 plt.tight_layout()
