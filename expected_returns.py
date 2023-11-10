@@ -95,3 +95,17 @@ ef = EfficientFrontier(mu, S)
 fig, ax = plt.subplots(figsize= (10,10))
 plotting.plot_efficient_frontier(ef, ax=ax, show_assets=False)
 
+# Find and plot the tangency portfolio
+ef2 = EfficientFrontier(mu, S)
+ef2.max_sharpe()
+ret_tangent, std_tangent, _ = ef2.portfolio_performance()
+
+# Plot random portfolios
+ax.scatter(stds, rets, marker=".", c=sharpes, cmap="viridis_r")
+ax.scatter(std_tangent, ret_tangent, c='red', marker='X',s=150, label= 'Max Sharpe')
+
+# Format
+ax.set_title("Efficient Frontier with random portfolios")
+ax.legend()
+plt.tight_layout()
+plt.show()
