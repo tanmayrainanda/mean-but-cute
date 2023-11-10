@@ -88,3 +88,10 @@ sharpes = rets / stds
 
 print("Sample portfolio returns:", rets)
 print("Sample portfolio volatilities:", stds)
+
+# Plot efficient frontier with Monte Carlo sim
+ef = EfficientFrontier(mu, S)
+
+fig, ax = plt.subplots(figsize= (10,10))
+plotting.plot_efficient_frontier(ef, ax=ax, show_assets=False)
+
