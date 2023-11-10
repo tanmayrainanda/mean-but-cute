@@ -39,7 +39,8 @@ for stock in stocks:
 # convert 'date' to datetime format
 df.index = pd.to_datetime(df.index)
 # filter df to only have data post 2021
-df = df.loc['2021':]
+df = df[df.index.year >= 2021]
+print(df)
 
 #print ("Current Price of each share", current_price)
 print ("Current Value of Portfolio", current_value)
