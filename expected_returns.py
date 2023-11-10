@@ -55,6 +55,7 @@ plt.show()
 
 sample_cov = risk_models.sample_cov(portfolio, frequency=252)
 S = risk_models.CovarianceShrinkage(portfolio).ledoit_wolf()
+plotting.plot_covariance(S, plot_correlation=True);
 
 # Calculate the expected return of the portfolio
 expected_return = sum(mean_return[stock] * stocks[stock] for stock in stocks)
