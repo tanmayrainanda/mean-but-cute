@@ -68,3 +68,23 @@ weights = ef.max_sharpe()
 
 cleaned_weights = ef.clean_weights()
 print(dict(cleaned_weights))
+
+ef.portfolio_performance(verbose=True)
+
+# Convert current_value to a pandas Series and drop any NaN values
+current_value_series = pd.Series(current_value).dropna()
+
+da = DiscreteAllocation(weights, current_value_series, total_portfolio_value=10000)
+
+allocation, leftover = da.greedy_portfolio()
+print("Discrete allocation:", allocation)
+print("Funds remaining: ${:.2f}".format(leftover))
+
+n_samples = 10000
+w = np.random.dirichlet(np.ones(len(mu)), n_samples)
+rets = w.dot(mu)
+stds = np.sqrt((w.T * (S @ w.T)).sum(axis=0))
+sharpes = rets / stds
+
+print("Sample portfolio returns:", rets)
+print("Sample portfolio volatilities:", stds)
