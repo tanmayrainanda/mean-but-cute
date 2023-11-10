@@ -6,12 +6,23 @@ import seaborn as sns
 from pypfopt import expected_returns
 from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt import risk_models
-from pypfopt.discrete_allocation import DiscreteAllocation
+from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
+import datetime
+from pypfopt import plotting
+
+start_date = datetime.datetime(2021,4,1)
+end_date = datetime.datetime(2023,11,10)
 
 # Function to get stock data
 def get_stock_data(symbol):
-    data = yf.download(symbol, start='2021-01-01')
-    return data['Close']
+    data = yf.download(symbol, start=start_date, end=end_date)
+    data = data['Adj Close']
+    return data
+
+ticker_list = ['UNH', 'TSLA', 'GOOGL']
+portfolio = get_stock_data(ticker_list)
+portfolio.to_csv("portfolio.csv",index=True)
+portfolio = pd.read_csv("portfolio.csv",parse_dates=True,index_col="Date")
 
 df = pd.DataFrame()
 
@@ -42,22 +53,18 @@ cov_matrix = df.pct_change().cov()
 sns.heatmap(cov_matrix)
 plt.show()
 
+sample_cov = risk_models.sample_cov(portfolio, frequency=252)
+S = risk_models.CovarianceShrinkage(portfolio).ledoit_wolf()
+
 # Calculate the expected return of the portfolio
 expected_return = sum(mean_return[stock] * stocks[stock] for stock in stocks)
 print("Expected Return of Portfolio", expected_return)
-mu = expected_returns.capm_return(df)
+mu = expected_returns.capm_return(portfolio)
 mu.plot.barh(figsize=(10, 6))
 
 # calculate efficient frontier
-ef = EfficientFrontier(mu, cov_matrix, weight_bounds=(0, 1))
+ef = EfficientFrontier(mu, S)
 weights = ef.max_sharpe()
-print(weights)
+
 cleaned_weights = ef.clean_weights()
 print(dict(cleaned_weights))
-
-ef.portfolio_performance(verbose=True)
-
-# Convert current_value to a pandas Series and drop any NaN values
-current_value_series = pd.Series(current_value).dropna()
-
-da = DiscreteAllocation(weights, current_value_series, total_portfolio_value=10000)
