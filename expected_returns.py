@@ -11,7 +11,7 @@ import datetime
 from pypfopt import plotting
 
 start_date = datetime.datetime(2021,4,1)
-end_date = datetime.datetime(2023,11,10)
+end_date = datetime.datetime(2023,12,13)
 
 # Function to get stock data
 def get_stock_data(symbol):
@@ -19,15 +19,15 @@ def get_stock_data(symbol):
     data = data['Adj Close']
     return data
 
-ticker_list = ['UNH', 'TSLA', 'GOOGL']
+ticker_list = ['UNH', 'TSLA', 'GOOGL','IOC.NS']
 portfolio = get_stock_data(ticker_list)
 portfolio.to_csv("portfolio.csv",index=True)
 portfolio = pd.read_csv("portfolio.csv",parse_dates=True,index_col="Date")
 
 df = pd.DataFrame()
 
-stocks = {'UNH': 1, 'TSLA': 1, 'GOOGL': 1}
-buy_price = {'UNH': 100, 'TSLA': 200, 'GOOGL': 100}
+stocks = {'UNH': 1, 'TSLA': 1, 'GOOGL': 1, 'IOC.NS': 1}
+buy_price = {'UNH': 100, 'TSLA': 200, 'GOOGL': 100, 'IOC.NS': 100}
 buy_value = {stock: buy_price[stock] * stocks[stock] for stock in stocks}
 
 print("Buy Value", buy_value)
