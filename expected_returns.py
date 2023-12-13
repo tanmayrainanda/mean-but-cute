@@ -10,7 +10,6 @@ from pypfopt import expected_returns
 from pypfopt.efficient_frontier import EfficientFrontier
 from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 
-
 yf.pdr_override()
 
 start_date = datetime.datetime(2023,12,1)
@@ -91,3 +90,6 @@ print(portfolio.iloc[-1])
 
 #print continuous allocation
 print("Continuous allocation:", weights)
+
+#print the number of each shares purchased initially
+print("Number of each shares purchased initially:", allocation)
