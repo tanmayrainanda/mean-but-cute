@@ -10,7 +10,7 @@ from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 import datetime
 from pypfopt import plotting
 
-start_date = datetime.datetime(2021, 4, 1)
+start_date = datetime.datetime(2023, 12, 1)
 end_date = datetime.datetime(2023, 12, 13)
 
 # Function to get stock data
@@ -29,7 +29,9 @@ df = pd.DataFrame()
 # Initial portfolio composition
 initial_weights = {'AMZN': 0.08, 'JPM': 0.08, 'JNJ': 0.08, 'PG': 0.08, 'CVX': 0.08, 'WMT': 0.08, 'NVDA': 0.08, 'MMM': 0.08, 'UNH': 0.08, 'TSLA': 0.08, 'HD': 0.08, 'KO': 0.08}
 budget = 30000  # Specify your budget
-
+#print todays share price of each stock
+print("Todays share price of each stock:")
+print(portfolio.iloc[0])
 # Calculate the initial number of shares based on the initial weights and budget
 initial_allocation = {stock: round(initial_weights[stock] * budget / get_stock_data(stock)[0], 0) for stock in initial_weights}
 
@@ -84,6 +86,9 @@ current_allocation_series = pd.Series(current_allocation_units).dropna()
 
 # Calculate the discrete allocation based on the latest prices and total_portfolio_value
 da = DiscreteAllocation(weights, current_allocation_series, total_portfolio_value=budget)
+
+#print continuous allocation
+print("Continuous allocation:", weights)
 
 allocation, leftover = da.greedy_portfolio()
 print("Discrete allocation:", allocation)
